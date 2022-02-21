@@ -28,7 +28,7 @@ public class buttonScript : MonoBehaviour
         {
             toggle = false;
             spriteRenderer.sprite = spriteOn;
-            doorOpen(cde, ode);
+            //doorOpen(cde, ode);
 
 
         }
@@ -36,10 +36,11 @@ public class buttonScript : MonoBehaviour
         {
             spriteRenderer.sprite = spriteOff;
             toggle = true;
-            doorClose(cde, ode);
+            //doorClose(cde, ode);
         }
             
     }
+    /*
     public bool doorOpen(Transform cd, Transform od)
     {
 
@@ -58,5 +59,5 @@ public class buttonScript : MonoBehaviour
         od.gameObject.SetActive(false);
 
         return false;
-    }
+    }*/
 }

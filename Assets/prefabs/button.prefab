@@ -27,7 +27,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2287003779491524994}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 5.55, y: -1.09, z: 0}
+  m_LocalPosition: {x: 7.4124494, y: 3.08, z: -12.615061}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
@@ -128,3 +128,5 @@ MonoBehaviour:
     type: 3}
   spriteOff: {fileID: -535559629899690853, guid: 89c553d977d65214491dc535079bbd0f,
     type: 3}
+  cde: {fileID: 0}
+  ode: {fileID: 0}
