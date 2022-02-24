@@ -7,15 +7,19 @@ public class buttonScript : MonoBehaviour
     public SpriteRenderer spriteRenderer;
     public Sprite spriteOn;
     public Sprite spriteOff;
+
     private int actin;
     public static bool toggle;
 
-    public Transform cde;
-    public Transform ode;
+   // public Transform cde;
+    //public Transform ode;
+    private GameObject obj;
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
         actin++;
+        obj = collision.gameObject;
+        Debug.Log(block());
     }
     private void OnTriggerExit2D(Collider2D collision)
     {
@@ -38,7 +42,24 @@ public class buttonScript : MonoBehaviour
             toggle = true;
             //doorClose(cde, ode);
         }
-            
+        
+    }
+
+    private void FixedUpdate()
+    {
+        
+    }
+
+    public string block()
+    {
+        if (obj != null)
+        {
+            if (obj.CompareTag("A"))
+                return "A";
+            else if (obj.CompareTag("!"))
+                return "!";
+        }
+        return null;
     }
     /*
     public bool doorOpen(Transform cd, Transform od)
