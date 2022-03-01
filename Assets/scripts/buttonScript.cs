@@ -15,16 +15,20 @@ public class buttonScript : MonoBehaviour
     //public Transform ode;
     private GameObject obj;
 
+    //public bool OnTriggerEnter2D()
+    //{
+    //    return true;
+    //}
     private void OnTriggerEnter2D(Collider2D collision)
     {
         actin++;
-        obj = collision.gameObject;
-        Debug.Log(block());
+        obj = collision.gameObject.transform.GetChild(0).gameObject;
+        //Debug.Log(block());
     }
-    private void OnTriggerExit2D(Collider2D collision)
+    public void OnTriggerExit2D()
     {
-
         actin--;
+        obj = null;
     }
     private void Update()
     {
@@ -56,7 +60,7 @@ public class buttonScript : MonoBehaviour
         {
             if (obj.CompareTag("A"))
                 return "A";
-            else if (obj.CompareTag("!"))
+            if (obj.CompareTag("!"))
                 return "!";
         }
         return null;

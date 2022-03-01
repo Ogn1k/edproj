@@ -1,7 +1,8 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
+using System.Text;
 
 
 public class logic : MonoBehaviour
@@ -11,38 +12,57 @@ public class logic : MonoBehaviour
     public GameObject spawner;
     public GameObject cd;
     public GameObject od;
+    string tempAnswer = null;
+    buttonSpawner buttonspawner;
 
     public void Start()
     {
-        
-        buttonSpawner temp = spawner.GetComponent<buttonSpawner>();
-        buttons = new GameObject[temp.size];
+
+        buttonspawner = spawner.GetComponent<buttonSpawner>();
+        buttons = new GameObject[buttonspawner.size];
         //Debug.Log(temp.size);
 
         od.gameObject.SetActive(false);
+        
+        
 
     }
 
     public void Update()
     {
-        buttons = GameObject.FindGameObjectsWithTag("button");
-        for (int i = 0; i < buttons.Length; i++)
+        
+        if(buttonspawner.triggerEnterReturn())
         {
-            buttonScript temp1 = buttons[i].GetComponent<buttonScript>();
-            if (temp1.block() != null)
-            { 
-                if(!answer.Contains(temp1.block()) & temp1.block() == "!" )
-                    answer += temp1.block();
-                if (!answer.Contains(temp1.block()) & temp1.block() == "A")
-                    answer += temp1.block();
+            buttons = GameObject.FindGameObjectsWithTag("button");
+            for (int i = 0; i < buttons.Length; i++)
+            {
+                buttonScript buttonL = buttons[i].GetComponent<buttonScript>();
+                if (buttonL.block() != null)
+                {
+                    if (!answer.Contains(buttonL.block()))
+                    {
+                        tempAnswer = buttonL.block();
+                        answer += buttonL.block();
+                    }
+                }
+                answers(answer);
             }
-            //create array that fills with buttons
-            //then for every button collect block value
-            //compare string value with every answer
-            //(answer == "!A") { doorOpen(); }
         }
-        Debug.Log(answer);
-        answers(answer);
+        if(buttonspawner.triggerExitReturn())
+        {
+            if(tempAnswer != null)
+                answer = answer.Replace(tempAnswer, "");
+            answers(answer);
+        }
+        //Debug.Log(answer);
+        //create array that fills with buttons
+        //then for every button collect block value
+        //compare string value with every answer
+        //(answer == "!A") { doorOpen(); }
+
+
+        
+
     }
 
     public bool doorOpen()
@@ -61,14 +81,13 @@ public class logic : MonoBehaviour
     }
     public void answers(string answer)
     {
-        if (answer == null)
-        {
-            doorClose();
-            //return false;
-        }
+        
+           
+          
         if (answer == "!A")
-        {
             doorOpen();
-        }
+        else
+            doorClose();
+        
     }
 }
