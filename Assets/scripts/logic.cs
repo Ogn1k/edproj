@@ -1,59 +1,72 @@
 using System;
+using System.Linq;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using System.Text;
 
-
+public static class Extensions
+{
+    public static bool find<T>(this T[] array, T target) {
+        return array.Contains(target);
+    }
+}
 public class logic : MonoBehaviour
 {
-    private string answer = "";
+    private string[] answer;
     private GameObject[] buttons;
     public GameObject spawner;
     public GameObject cd;
     public GameObject od;
     string tempAnswer = null;
     buttonSpawner buttonspawner;
-
+    
+    
     public void Start()
     {
 
         buttonspawner = spawner.GetComponent<buttonSpawner>();
         buttons = new GameObject[buttonspawner.size];
         //Debug.Log(temp.size);
-
+        answer = new string[buttons.Length];
         od.gameObject.SetActive(false);
         
         
-
+        buttons = GameObject.FindGameObjectsWithTag("button");
     }
 
     public void Update()
     {
         
-        if(buttonspawner.triggerEnterReturn())
+        
+            
+            
+        
+        for (int i = 0; i < buttons.Length; i++)
         {
-            buttons = GameObject.FindGameObjectsWithTag("button");
-            for (int i = 0; i < buttons.Length; i++)
+            if(buttons[i].GetComponent<buttonScript>() == null)
+                throw new Exception("no button script component in buttons");
+            buttonScript buttonL = buttons[i].GetComponent<buttonScript>();
+            if (buttonspawner.triggerEnterReturn())
             {
-                buttonScript buttonL = buttons[i].GetComponent<buttonScript>();
-                if (buttonL.block() != null)
+                /*if (buttonL.block() == null)
                 {
-                    if (!answer.Contains(buttonL.block()))
-                    {
-                        tempAnswer = buttonL.block();
-                        answer += buttonL.block();
-                    }
-                }
-                answers(answer);
+                }*/
+                tempAnswer = buttonL.block();
+                answer[i] = buttonL.block();
             }
+
+            /*if(buttonspawner.triggerExitReturn())
+            {
+                if (tempAnswer != null && tempAnswer == answer[i])
+                {
+                    tempAnswer = null;
+                    answer[i] = null;
+                }
+            }*/
+            
         }
-        if(buttonspawner.triggerExitReturn())
-        {
-            if(tempAnswer != null)
-                answer = answer.Replace(tempAnswer, "");
-            answers(answer);
-        }
+        answers(answer);
         //Debug.Log(answer);
         //create array that fills with buttons
         //then for every button collect block value
@@ -64,6 +77,8 @@ public class logic : MonoBehaviour
         
 
     }
+    
+    
 
     public bool doorOpen()
     {
@@ -79,12 +94,11 @@ public class logic : MonoBehaviour
 
         return false;
     }
-    public void answers(string answer)
+    public void answers(string[] answer)
     {
-        
-           
-          
-        if (answer == "!A")
+        string[] temp = {"!", "A"};
+        bool temp1 = answer.SequenceEqual(temp);
+        if (temp1)
             doorOpen();
         else
             doorClose();
