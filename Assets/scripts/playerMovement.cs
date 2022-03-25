@@ -1,6 +1,8 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class playerMovement : MonoBehaviour
 {
@@ -14,12 +16,28 @@ public class playerMovement : MonoBehaviour
     public LayerMask boxmask;
     public Transform origin;
     GameObject box;
+    public boolSO braceletPick;
+    public Canvas ui;
 
     public Vector2 moveDir;
+
+    private void OnApplicationQuit()
+    {
+        braceletPick.value = false;
+    }
 
     // Update is called once per frame
     void Update()
     {
+        if (ui != null)
+        {
+            if (braceletPick.value)
+                ui.gameObject.SetActive(true);
+            else
+                ui.gameObject.SetActive(false);
+        }
+        
+        
         moveDir = new Vector2(Input.GetAxis("Horizontal"), Input.GetAxis("Vertical"));
         moveSpeed = Mathf.Clamp(moveDir.magnitude, 0f, 1f);
 

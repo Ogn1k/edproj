@@ -96,9 +96,8 @@ public class logic : MonoBehaviour
     }
     public void answers(string[] answer)
     {
-        string[] temp = {"!", "A"};
-        bool temp1 = answer.SequenceEqual(temp);
-        if (temp1)
+        
+        if (answer.SequenceEqual(new string[2] {"!", "A"}) || answer.SequenceEqual(new string[3] {"A", "&", "B"}))
             doorOpen();
         else
             doorClose();

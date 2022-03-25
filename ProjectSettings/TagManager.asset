@@ -8,6 +8,9 @@ TagManager:
   - A
   - '!'
   - button
+  - B
+  - C
+  - '&'
   layers:
   - Default
   - TransparentFX

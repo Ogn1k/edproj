@@ -509,4 +509,6 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 1048576
   origin: {fileID: 4437419177934622442}
+  braceletPick: {fileID: 11400000, guid: 76ce424dfeae72e48b751729ef732157, type: 2}
+  ui: {fileID: 0}
   moveDir: {x: 0, y: 0}

@@ -60,8 +60,14 @@ public class buttonScript : MonoBehaviour
         {
             if (obj.CompareTag("A"))
                 return "A";
+            if (obj.CompareTag("B"))
+                return "B";
+            if (obj.CompareTag("C"))
+                return "C";
             if (obj.CompareTag("!"))
                 return "!";
+            if (obj.CompareTag("&"))
+                return "&";
         }
         return null;
     }
