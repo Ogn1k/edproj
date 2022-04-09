@@ -11,6 +11,9 @@ TagManager:
   - B
   - C
   - '&'
+  - '||'
+  - ->
+  - terminal
   layers:
   - Default
   - TransparentFX

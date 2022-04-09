@@ -20,11 +20,16 @@ public class logic : MonoBehaviour
     public GameObject od;
     string tempAnswer = null;
     buttonSpawner buttonspawner;
-    
+
+    public boolSO bracelet;
     
     public void Start()
     {
 
+        if (spawner != null)
+        {
+            
+        
         buttonspawner = spawner.GetComponent<buttonSpawner>();
         buttons = new GameObject[buttonspawner.size];
         //Debug.Log(temp.size);
@@ -34,12 +39,11 @@ public class logic : MonoBehaviour
         
         buttons = GameObject.FindGameObjectsWithTag("button");
     }
-
+    }
     public void Update()
     {
-        
-        
-            
+        if (spawner != null)
+        {
             
         
         for (int i = 0; i < buttons.Length; i++)
@@ -75,7 +79,7 @@ public class logic : MonoBehaviour
 
 
         
-
+        }
     }
     
     
@@ -94,10 +98,13 @@ public class logic : MonoBehaviour
 
         return false;
     }
+    
+    
+    
     public void answers(string[] answer)
     {
         
-        if (answer.SequenceEqual(new string[2] {"!", "A"}) || answer.SequenceEqual(new string[3] {"A", "&", "B"}))
+        if (answer.SequenceEqual(new string[2] {"!", "A"}) & !bracelet._a)
             doorOpen();
         else
             doorClose();

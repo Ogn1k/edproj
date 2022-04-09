@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -17,6 +18,7 @@ public class playerMovement : MonoBehaviour
     public Transform origin;
     GameObject box;
     public boolSO braceletPick;
+    public Canvas tableT;
     public Canvas ui;
 
     public Vector2 moveDir;
@@ -35,21 +37,23 @@ public class playerMovement : MonoBehaviour
                 ui.gameObject.SetActive(true);
             else
                 ui.gameObject.SetActive(false);
+            gameInterface();
         }
-        
-        
-        moveDir = new Vector2(Input.GetAxis("Horizontal"), Input.GetAxis("Vertical"));
-        moveSpeed = Mathf.Clamp(moveDir.magnitude, 0f, 1f);
 
-        if (moveDir != Vector2.zero)
+        if (tableT != null && !tableT.gameObject.activeSelf)
         {
-            anim.SetFloat("x", moveDir.x);
-            anim.SetFloat("y", moveDir.y);
+            moveDir = new Vector2(Input.GetAxis("Horizontal"), Input.GetAxis("Vertical"));
+            moveSpeed = Mathf.Clamp(moveDir.magnitude, 0f, 1f);
+            grabber();
+            if (moveDir != Vector2.zero)
+            {
+                anim.SetFloat("x", moveDir.x);
+                anim.SetFloat("y", moveDir.y);
+            }
+            anim.SetFloat("speed", moveSpeed);
         }
-        anim.SetFloat("speed", moveSpeed);
-
-        grabber();
-        //Debug.Log(moveDir);
+        
+        
     }
 
     private void FixedUpdate()
@@ -61,10 +65,9 @@ public class playerMovement : MonoBehaviour
     void OnCollisionEnter(Collision collision)
     {
         Debug.Log(collision.gameObject.name);
-        //Debug.Log();
     }
 
-    void grabber()
+    public void grabber()
     {
         Physics2D.queriesStartInColliders = false;
         RaycastHit2D hit = Physics2D.Raycast(origin.position, new Vector2(dirx, diry), distance, boxmask);
@@ -78,6 +81,14 @@ public class playerMovement : MonoBehaviour
                 box.GetComponent<FixedJoint2D>().connectedBody = this.GetComponent<Rigidbody2D>();
             }
         }
+        else if (hit.collider != null && hit.collider.gameObject.tag == "terminal" && Input.GetKey(KeyCode.Z))
+        {
+            
+                
+                tableT.gameObject.SetActive(true);
+            
+            
+        }
         else if (Input.GetKeyUp(KeyCode.Z))
         {
             if (box != null)
@@ -85,6 +96,24 @@ public class playerMovement : MonoBehaviour
                 box.GetComponent<FixedJoint2D>().enabled = false;
             }
         }
+
+    }
+
+    public string boolToString(bool x)
+    {
+        if (x)
+            return "1";
+        else
+            return "0";
+    }
+    
+    public void gameInterface()
+    {
+        ui.gameObject.transform.GetChild(0).gameObject.transform.GetChild(2).gameObject.GetComponent<TextMeshProUGUI>().text = boolToString(braceletPick._a);
+        if(ui.gameObject.transform.childCount >= 2)
+            ui.gameObject.transform.GetChild(1).gameObject.transform.GetChild(2).gameObject.GetComponent<TextMeshProUGUI>().text = boolToString(braceletPick._b);
+        if(ui.gameObject.transform.childCount >= 3)
+            ui.gameObject.transform.GetChild(2).gameObject.transform.GetChild(2).gameObject.GetComponent<TextMeshProUGUI>().text = boolToString(braceletPick._c);
     }
     
     private void OnDrawGizmos()

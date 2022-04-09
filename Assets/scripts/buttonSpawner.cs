@@ -8,19 +8,28 @@ public class buttonSpawner : MonoBehaviour
     public int size = 0;
     public GameObject ObjectToSpawn;
     private GameObject[] buttons;
+    public bool vertical = false;
     private bool onTriggerEnter = false;
     private bool onTriggerExit = false;
 
     private void Start()
     {
         buttons = new GameObject[size];
-        for (int i = 0; i < size; i++)
+        if (vertical)
         {
-            buttons[i] = Instantiate(ObjectToSpawn, transform.position + new Vector3(i, 0, 0), transform.rotation);
-            
-            //Debug.Log(i);
+            for (int i = 0; i < size; i++)
+            {
+                buttons[i] = Instantiate(ObjectToSpawn, transform.position + new Vector3(0, i, 0), transform.rotation);
+            }
         }
-
+        else
+        {
+            for (int i = 0; i < size; i++)
+            {
+                buttons[i] = Instantiate(ObjectToSpawn, transform.position + new Vector3(i, 0, 0), transform.rotation);
+            }
+        }
+        
         transform.gameObject.GetComponent<BoxCollider2D>().size = new Vector2(size, 1);
         transform.gameObject.GetComponent<BoxCollider2D>().offset = new Vector2(0.5f, 0);
     }

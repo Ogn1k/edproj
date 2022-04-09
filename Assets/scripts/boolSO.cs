@@ -7,6 +7,9 @@ public class boolSO : ScriptableObject
 {
     [SerializeField]
     private bool _value;
+    public bool _a;
+    public bool _b;
+    public bool _c;
 
     public bool value
     {
