@@ -7,7 +7,7 @@ using UnityEngine.SceneManagement;
 
 public class playerMovement : MonoBehaviour
 {
-    public float distance = .8f;
+    public float distance = 1f;
     public float speed = 5;
     public float moveSpeed;
     private int dirx;
@@ -40,8 +40,9 @@ public class playerMovement : MonoBehaviour
             gameInterface();
         }
 
-        if (tableT != null && !tableT.gameObject.activeSelf)
+        if (tableT == null || tableT.gameObject.activeSelf)
         {
+            
             moveDir = new Vector2(Input.GetAxis("Horizontal"), Input.GetAxis("Vertical"));
             moveSpeed = Mathf.Clamp(moveDir.magnitude, 0f, 1f);
             grabber();
@@ -52,6 +53,7 @@ public class playerMovement : MonoBehaviour
             }
             anim.SetFloat("speed", moveSpeed);
         }
+        
         
         
     }
@@ -70,6 +72,31 @@ public class playerMovement : MonoBehaviour
     public void grabber()
     {
         Physics2D.queriesStartInColliders = false;
+        if (moveDir != Vector2.zero)
+        {
+            if (moveDir.x >= 0.1f)
+            {
+                dirx = 1;
+                diry = 0;
+            }
+            else if (moveDir.x <= -0.1f)
+            {
+                dirx = -1;
+                diry = 0;
+            }
+
+            if (moveDir.y >= 0.1f)
+            {
+                dirx = 0;
+                diry = 1;
+            }
+            else if (moveDir.y <= -0.1f)
+            {
+                dirx = 0;
+                diry = -1;
+            }
+        }
+
         RaycastHit2D hit = Physics2D.Raycast(origin.position, new Vector2(dirx, diry), distance, boxmask);
         if (hit.collider != null && hit.collider.gameObject.tag == "pushable" && Input.GetKey(KeyCode.Z))
         {

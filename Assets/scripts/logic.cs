@@ -44,45 +44,52 @@ public class logic : MonoBehaviour
     {
         if (spawner != null)
         {
-            
-        
-        for (int i = 0; i < buttons.Length; i++)
-        {
-            if(buttons[i].GetComponent<buttonScript>() == null)
-                throw new Exception("no button script component in buttons");
-            buttonScript buttonL = buttons[i].GetComponent<buttonScript>();
-            if (buttonspawner.triggerEnterReturn())
+            for (int i = 0; i < buttons.Length; i++)
             {
-                /*if (buttonL.block() == null)
+                if(buttons[i].GetComponent<buttonScript>() == null)
+                    throw new Exception("no button script component in buttons");
+                buttonScript buttonL = buttons[i].GetComponent<buttonScript>();
+                if (buttonspawner.triggerEnterReturn())
                 {
-                }*/
-                tempAnswer = buttonL.block();
-                answer[i] = buttonL.block();
-            }
-
-            /*if(buttonspawner.triggerExitReturn())
-            {
-                if (tempAnswer != null && tempAnswer == answer[i])
-                {
-                    tempAnswer = null;
-                    answer[i] = null;
+                    tempAnswer = buttonL.block();
+                    if (buttonL.block() == "A" || buttonL.block() == "B" || buttonL.block() == "C")
+                        answer[i] = bllToStr(strToBlArray(buttonL.block()));
+                    else
+                        answer[i] = buttonL.block();
                 }
-            }*/
-            
-        }
+            }
         answers(answer);
-        //Debug.Log(answer);
-        //create array that fills with buttons
-        //then for every button collect block value
-        //compare string value with every answer
-        //(answer == "!A") { doorOpen(); }
-
-
-        
         }
     }
     
+    public string bllToStr(bool x)
+    {
+        if (x)
+            return "1";
+        else
+            return "0";
+    }
     
+    public bool strToBlArray(string x)
+    {
+        if (x == "A")
+            if (bracelet._a)
+                return true;
+            else
+                return false;
+        if (x == "B")
+            if (bracelet._b)
+                return true;
+            else
+                return false;
+        if (x == "C")
+            if (bracelet._c)
+                return true;
+            else
+                return false;
+        else 
+            return false;
+    }
 
     public bool doorOpen()
     {
@@ -104,10 +111,13 @@ public class logic : MonoBehaviour
     public void answers(string[] answer)
     {
         
-        if (answer.SequenceEqual(new string[2] {"!", "A"}) & !bracelet._a)
+        if (answer.SequenceEqual(new string[2] {"!", "1"}))
+            doorOpen();
+        else if (answer.SequenceEqual(new string[7] {answer[0], "->", answer[2], "&", answer[4], "->", "1"}) || answer.SequenceEqual(new string[7] {"1", "->", "0", "&", "1", "->", "0"}))
             doorOpen();
         else
             doorClose();
+        
         
     }
 }

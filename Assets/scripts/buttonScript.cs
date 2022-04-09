@@ -53,6 +53,10 @@ public class buttonScript : MonoBehaviour
                 return "!";
             if (obj.CompareTag("&"))
                 return "&";
+            if (obj.CompareTag("||"))
+                return "|";
+            if (obj.CompareTag("->"))
+                return "->";
         }
         return null;
     }
