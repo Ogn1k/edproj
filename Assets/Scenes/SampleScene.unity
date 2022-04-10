@@ -35475,6 +35475,10 @@ PrefabInstance:
       propertyPath: m_BoundingShape2D
       value: 
       objectReference: {fileID: 642083149}
+    - target: {fileID: 31430855, guid: 5be28078a147a7147a63196477123471, type: 3}
+      propertyPath: m_Lens.OrthographicSize
+      value: 5
+      objectReference: {fileID: 0}
     - target: {fileID: 31430856, guid: 5be28078a147a7147a63196477123471, type: 3}
       propertyPath: m_LocalPosition.y
       value: 0.5478
@@ -35486,6 +35490,11 @@ PrefabInstance:
     - target: {fileID: 933850684, guid: 5be28078a147a7147a63196477123471, type: 3}
       propertyPath: boxmask.m_Bits
       value: 1048576
+      objectReference: {fileID: 0}
+    - target: {fileID: 4437419177689017934, guid: 5be28078a147a7147a63196477123471,
+        type: 3}
+      propertyPath: orthographic size
+      value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 4437419177689018033, guid: 5be28078a147a7147a63196477123471,
         type: 3}

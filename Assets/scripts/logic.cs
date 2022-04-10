@@ -4,6 +4,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using System.Text;
+using UnityEngine.SceneManagement;
 
 public static class Extensions
 {
@@ -110,13 +111,16 @@ public class logic : MonoBehaviour
     
     public void answers(string[] answer)
     {
-        
-        if (answer.SequenceEqual(new string[2] {"!", "1"}))
-            doorOpen();
-        else if (answer.SequenceEqual(new string[7] {answer[0], "->", answer[2], "&", answer[4], "->", "1"}) || answer.SequenceEqual(new string[7] {"1", "->", "0", "&", "1", "->", "0"}))
-            doorOpen();
+        if (answer.Length <= 2)
+        {
+            if (answer.SequenceEqual(new string[2] {"!", "1"}))
+                doorOpen();
+        }
         else
-            doorClose();
+            if (answer.SequenceEqual(new string[7] {answer[0], "->", answer[2], "&", answer[4], "->", "1"}) || answer.SequenceEqual(new string[7] {"1", "->", "0", "&", "1", "->", "0"}))
+                doorOpen();
+            else
+                doorClose();
         
         
     }

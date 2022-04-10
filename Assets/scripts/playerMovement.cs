@@ -19,6 +19,7 @@ public class playerMovement : MonoBehaviour
     GameObject box;
     public boolSO braceletPick;
     public Canvas tableT;
+    public Canvas windowUI;
     public Canvas ui;
 
     public Vector2 moveDir;
@@ -40,9 +41,8 @@ public class playerMovement : MonoBehaviour
             gameInterface();
         }
 
-        if (tableT == null || tableT.gameObject.activeSelf)
+        if (canPlayerMove())
         {
-            
             moveDir = new Vector2(Input.GetAxis("Horizontal"), Input.GetAxis("Vertical"));
             moveSpeed = Mathf.Clamp(moveDir.magnitude, 0f, 1f);
             grabber();
@@ -53,9 +53,20 @@ public class playerMovement : MonoBehaviour
             }
             anim.SetFloat("speed", moveSpeed);
         }
+       
         
-        
-        
+    }
+
+    private bool canPlayerMove()
+    {
+        if (windowUI != null )
+            if(windowUI.gameObject.activeSelf)
+                return false;
+        if (tableT != null)
+            if(tableT.gameObject.activeSelf)
+                return false;
+        return true;
+
     }
 
     private void FixedUpdate()
@@ -71,7 +82,6 @@ public class playerMovement : MonoBehaviour
 
     public void grabber()
     {
-        Physics2D.queriesStartInColliders = false;
         if (moveDir != Vector2.zero)
         {
             if (moveDir.x >= 0.1f)
@@ -96,34 +106,50 @@ public class playerMovement : MonoBehaviour
                 diry = -1;
             }
         }
-
+        Physics2D.queriesStartInColliders = false;
         RaycastHit2D hit = Physics2D.Raycast(origin.position, new Vector2(dirx, diry), distance, boxmask);
-        if (hit.collider != null && hit.collider.gameObject.tag == "pushable" && Input.GetKey(KeyCode.Z))
+        if (hit.collider != null )
         {
             box = hit.collider.gameObject;
-            //box = hit.collider.gameObject;
-            if (box != null)
+            if (objectInteraction("pushable", hit.collider.gameObject))
             {
-                box.GetComponent<FixedJoint2D>().enabled = true;
-                box.GetComponent<FixedJoint2D>().connectedBody = this.GetComponent<Rigidbody2D>();
+                if (box != null)
+                {
+                    box.GetComponent<FixedJoint2D>().enabled = true;
+                    box.GetComponent<FixedJoint2D>().connectedBody = this.GetComponent<Rigidbody2D>();
+                }
             }
-        }
-        else if (hit.collider != null && hit.collider.gameObject.tag == "terminal" && Input.GetKey(KeyCode.Z))
-        {
-            
-                
+            if (objectInteraction("terminal", hit.collider.gameObject))
+            {
                 tableT.gameObject.SetActive(true);
-            
-            
+                
+            }
+            if (objectInteraction("window", hit.collider.gameObject))
+            {
+                windowUI.gameObject.SetActive(true);
+                
+            }
+
         }
         else if (Input.GetKeyUp(KeyCode.Z))
         {
             if (box != null)
             {
-                box.GetComponent<FixedJoint2D>().enabled = false;
+                if(box.GetComponent<FixedJoint2D>())
+                    box.GetComponent<FixedJoint2D>().enabled = false;
             }
         }
 
+    }
+
+    public bool objectInteraction(string tag, GameObject box)
+    {
+        if (box.CompareTag(tag) && Input.GetKey(KeyCode.Z))
+        {
+            return true;
+        }
+
+        return false;
     }
 
     public string boolToString(bool x)
