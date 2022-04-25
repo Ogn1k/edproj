@@ -113,15 +113,33 @@ public class logic : MonoBehaviour
     {
         if (answer.Length <= 2)
         {
-            if (answer.SequenceEqual(new string[2] {"!", "1"}))
-                doorOpen();
-        }
-        else
-            if (answer.SequenceEqual(new string[7] {answer[0], "->", answer[2], "&", answer[4], "->", "1"}) || answer.SequenceEqual(new string[7] {"1", "->", "0", "&", "1", "->", "0"}))
+            if (answer.SequenceEqual(new string[2] {"!", "0"}))
                 doorOpen();
             else
                 doorClose();
-        
-        
+        }
+        else
+        {
+            string[] temp01 = {"1", "->", "0", "&", "1", "->", "0"};
+            string[] temp02 = {"1", "->", "0", "&", "0", "->", "0"};
+            string[] temp03 = {answer[0], "->", answer[2], "&", answer[4], "->", "1"};
+            string[][] temp =
+            {
+                temp03,
+                temp02,
+                temp01
+            };
+            string[] temp1 = new string[7];
+            
+                
+            if (answer.SequenceEqual(temp[0]))
+                doorOpen();
+            else if(answer.SequenceEqual(temp[1]))
+                doorOpen();
+            else if(answer.SequenceEqual(temp[2]))
+                doorOpen();
+            else
+                doorClose();
+        }
     }
 }

@@ -13,6 +13,6 @@ MonoBehaviour:
   m_Name: bracelet
   m_EditorClassIdentifier: 
   _value: 0
-  _a: 1
-  _b: 0
+  _a: 0
+  _b: 1
   _c: 0

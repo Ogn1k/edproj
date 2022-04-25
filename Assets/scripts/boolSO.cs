@@ -10,6 +10,7 @@ public class boolSO : ScriptableObject
     public bool _a;
     public bool _b;
     public bool _c;
+    
 
     public bool value
     {

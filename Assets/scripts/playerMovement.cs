@@ -22,7 +22,11 @@ public class playerMovement : MonoBehaviour
     public Canvas windowUI;
     public Canvas ui;
 
+    public triggerDoorOpen oneFunk;
+
     public Vector2 moveDir;
+
+    public bool froze = false;
 
     private void OnApplicationQuit()
     {
@@ -43,15 +47,24 @@ public class playerMovement : MonoBehaviour
 
         if (canPlayerMove())
         {
-            moveDir = new Vector2(Input.GetAxis("Horizontal"), Input.GetAxis("Vertical"));
-            moveSpeed = Mathf.Clamp(moveDir.magnitude, 0f, 1f);
-            grabber();
-            if (moveDir != Vector2.zero)
-            {
-                anim.SetFloat("x", moveDir.x);
-                anim.SetFloat("y", moveDir.y);
-            }
-            anim.SetFloat("speed", moveSpeed);
+            
+                moveDir = new Vector2(Input.GetAxis("Horizontal"), Input.GetAxis("Vertical"));
+                moveSpeed = Mathf.Clamp(moveDir.magnitude, 0f, 1f);
+                grabber();
+                if (moveDir != Vector2.zero)
+                {
+                    anim.SetFloat("x", moveDir.x);
+                    anim.SetFloat("y", moveDir.y);
+                }
+                anim.SetFloat("speed", moveSpeed);
+            
+            
+            
+        }
+        else
+        {
+            moveDir = Vector2.zero;
+            moveSpeed = 0;
         }
        
         
@@ -65,6 +78,10 @@ public class playerMovement : MonoBehaviour
         if (tableT != null)
             if(tableT.gameObject.activeSelf)
                 return false;
+        if (froze)
+            return false;
+        
+        
         return true;
 
     }
@@ -129,6 +146,15 @@ public class playerMovement : MonoBehaviour
                 windowUI.gameObject.SetActive(true);
                 
             }
+            if (objectInteraction("door", hit.collider.gameObject))
+            {
+                oneFunk.doorOpen();
+                Debug.Log(1);
+            }
+            if (objectInteraction("plate", hit.collider.gameObject))
+            {
+                tableT.gameObject.SetActive(true);
+            }
 
         }
         else if (Input.GetKeyUp(KeyCode.Z))
@@ -144,7 +170,7 @@ public class playerMovement : MonoBehaviour
 
     public bool objectInteraction(string tag, GameObject box)
     {
-        if (box.CompareTag(tag) && Input.GetKey(KeyCode.Z))
+        if (box.CompareTag(tag) && Input.GetKeyDown(KeyCode.Z))
         {
             return true;
         }
@@ -197,7 +223,7 @@ public class playerMovement : MonoBehaviour
             }
         }
 
-        //Gizmos.DrawLine(origin.position, new Vector2(dirx, 0) + (Vector2)origin.position);
+        //Gizmos.DrawLine(hit);
         Gizmos.DrawLine(origin.position, new Vector2(dirx, diry) + (Vector2)origin.position);
     }
 }
